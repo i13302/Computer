@@ -18,7 +18,7 @@ int main(void)
 		getchar();
 		cpu.clock(mem1);
 		sleep(1);
-		}
+	}
 
 	printf("end computer\n");
 	return 0;
