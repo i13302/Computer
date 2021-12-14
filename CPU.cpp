@@ -7,25 +7,25 @@ void CPU::reset()
 {
 	SET_DATA(this->PC, 0x0);
 	SET_DATA(this->timing, 0x0);
+	SET_WORD(this->NULLWORD, 0xFF);
 }
 
-void CPU::clock(WORD value)
+void CPU::clock()
 {
-	this->debug_print();
-
+	WORD   value;
 	OPRATE oprate;
-	this->MEM = value;
-
-	INC_DATA(this->timing);
 
 	switch (GET_DATA(this->timing)) {
 	case 0:
 		COPY_DATA(this->MAR, this->PC);
+		CPU::setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
 		break;
 	case 1:
+		value  = CPU::readBus(memBUS);
 		oprate = CPU::getOPRate(value);
 		COPY_DATA(this->MBR, oprate);
 		INC_DATA(this->PC);
+		DEBUG_PRINT("value", value);
 		break;
 	case 2:
 		COPY_DATA(this->IR, this->MBR);
@@ -34,6 +34,8 @@ void CPU::clock(WORD value)
 		decode();
 		break;
 	}
+	this->debug_print();
+	INC_DATA(this->timing);
 }
 
 OPRATE CPU::getOPRate(WORD value)
@@ -75,12 +77,15 @@ void CPU::decode()
 void CPU::Ins_LDI()
 {
 	OPRAND oprand;
+	WORD   value;
 	switch (GET_DATA(this->timing)) {
 	case 3:
 		COPY_DATA(this->MAR, this->PC);
+		CPU::setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
 		break;
 	case 4:
-		oprand = CPU::getOPRand(this->MEM);
+		value  = readBus(memBUS);
+		oprand = CPU::getOPRand(value);
 		COPY_DATA(this->MBR, oprand);
 		INC_DATA(this->PC);
 		break;
@@ -103,13 +108,32 @@ void CPU::Ins_JUMP()
 {
 }
 
+void CPU::connect_BUS(BUS *bus, PORT *port)
+{
+	this->memBUS  = bus;
+	this->memPORT = port;
+	PTR_SET_DATA(this->memPORT, 0x1);
+}
+
+void CPU::setBUS(BUS *bus, ADDR _addr, WORD _word, MODE _mode)
+{
+
+	COPY_DATA(bus->addr, _addr);
+	COPY_DATA(bus->word, _word);
+	bus->mode = _mode;
+}
+
+WORD CPU::readBus(BUS *bus)
+{
+	return bus->word;
+}
+
 void CPU::debug_print()
 {
 	DEBUG_PRINT("timing", this->timing);
 	DEBUG_PRINT("PC", this->PC);
 	DEBUG_PRINT("IR", this->IR);
 	DEBUG_PRINT("REGISTERS[0]", this->REGISTERS[0]);
-	DEBUG_PRINT("MEM", this->MEM);
 	DEBUG_PRINT("MAR", this->MAR);
 	DEBUG_PRINT("MBR", this->MBR);
 }

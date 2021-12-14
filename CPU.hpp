@@ -12,10 +12,13 @@ private:
 	WORD REGISTERS[REGISTER_SIZE];
 	DATA PC; // Program Counter
 
-	OPRATE IR;  // Instruction Register
+	OPRATE IR; // Instruction Register
+	BUS *  memBUS;
+	PORT * memPORT;
 	OPRAND MAR; // Memory Address Register
 	WORD   MBR; // Memory Buffer Register
-	WORD   MEM;
+
+	WORD NULLWORD;
 
 	OPRATE operate[OPRATE_SIZE];
 	OPRATE getOPRate(WORD value);
@@ -25,7 +28,8 @@ private:
 
 	bit4 timing;
 
-	// void
+	void setBUS(BUS *bus, ADDR _addr, WORD _word, MODE _mode);
+	WORD readBus(BUS *bus);
 	void decode();
 
 	void Ins_LDI();   // Load Immediate to Register from Operand
@@ -35,8 +39,8 @@ private:
 
 public:
 	void reset();
-	void clock(WORD value);
-	void connect_BUS(BUS *bus, PORT port);
+	void clock();
+	void connect_BUS(BUS *bus, PORT *port);
 
 	void debug_print();
 };

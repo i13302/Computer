@@ -8,20 +8,22 @@
 
 int main(void)
 {
-	BUS memBUS;
+	BUS  memBUS;
 	PORT ports[PORT_SIZE];
-	
-	CPU cpu = CPU();
 
-	WORD mem1;
-	SET_WORD(mem1, 0x0F);
+	CPU    cpu    = CPU();
+	MEMORY memory = MEMORY();
+
+	cpu.connect_BUS(&memBUS, &ports[0]);
+	memory.connect_BUS(&memBUS, &ports[1]);
 
 	printf("start computer\n");
 	cpu.reset();
 	for (int clock = 0; 1; clock++) {
 		// printf("clock: %d\n", clock);
 		getchar();
-		cpu.clock(mem1);
+		cpu.clock();
+		memory.Sync(&memBUS);
 		sleep(1);
 	}
 

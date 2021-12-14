@@ -5,10 +5,10 @@
 
 void DEBUG_PRINT(const char *str, WORD value)
 {
-	std::printf("%s: %2x\n", str, GET_WORD(value));
+	std::printf("%s: %02x\n", str, GET_WORD(value));
 }
 
 void DEBUG_PRINT(const char *str, DATA value)
 {
-	std::printf("%s: %2x\n", str, GET_WORD(value));
+	std::printf("%s: %02x\n", str, GET_WORD(value));
 }

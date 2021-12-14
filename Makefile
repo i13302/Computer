@@ -11,8 +11,8 @@ all: $(PROG)
 $(PROG):$(OBJS)
 	$(CC) $(CFLAGS) $(LIBS) -o $(PROG) $^
 
-CPU.o: CPU.hpp TYPE.hpp DEBUG.hpp
-MEMORY.o: MEMORY.hpp TYPE.hpp DEBUG.hpp
+CPU.o: CPU.hpp TYPE.hpp BUS.hpp DEBUG.hpp
+MEMORY.o: MEMORY.hpp TYPE.hpp BUS.hpp DEBUG.hpp
 DEBUG.o: DEBUG.hpp
 
 .SUFFIXES: .cpp .o

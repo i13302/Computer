@@ -18,8 +18,7 @@ typedef bit4 DATA;
 typedef bit4 ADDR;
 typedef bit4 OPRATE;
 typedef bit4 OPRAND;
-typedef bit2 CONTROL;
-typedef bit4 PORT;
+typedef bit2 PORT;
 
 #define GET_WORD(v) v.b
 #define SET_WORD(v, x) v.b = x
@@ -30,8 +29,15 @@ typedef bit4 PORT;
 #define GET_OPRAND(v) GET_WORD(v)
 #define SET_OPRAND(v, b) SET_WORD(v, b)
 
-#define COPY_DATA(d, s) d.b = s.b
-#define INC_DATA(d) d.b++
+#define PTR_GET_WORD(v) v->b
+#define PTR_SET_WORD(v, x) v->b = x
+#define PTR_GET_DATA(v) v->b
+#define PTR_SET_DATA(v, x) v->b = x
+
+#define COPY_WORD(d, s) d.b = s.b
+#define COPY_DATA(d, s) COPY_WORD(d, s)
+#define INC_WORD(d) d.b++
+#define INC_DATA(d) INC_WORD(d)
 #define DEC_DATA(d) d.b--
 #define RESET_DATA(d) d.b = 0
 
