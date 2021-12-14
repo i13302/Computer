@@ -11,10 +11,10 @@ private:
 	WORD REGISTERS[REGISTER_SIZE];
 	DATA PC; // Program Counter
 
-	OPRATE IR;       // Instruction Register
+	OPRATE IR;  // Instruction Register
 	OPRAND MAR; // Memory Address Register
-	WORD MBR;		// Memory Buffer Register
-	WORD MEM;
+	WORD   MBR; // Memory Buffer Register
+	WORD   MEM;
 
 	OPRATE operate[OPRATE_SIZE];
 	OPRATE getOPRate(WORD value);
@@ -35,6 +35,6 @@ private:
 public:
 	void reset();
 	void clock(WORD value);
-	
+
 	void debug_print();
 };
