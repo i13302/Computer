@@ -1,6 +1,10 @@
 #pragma once
 
 typedef struct {
+	unsigned int b : 2;
+} bit2;
+
+typedef struct {
 	// bit filed http://wisdom.sakura.ne.jp/programming/c/c38.html , 2021/12/14
 	unsigned int b : 4;
 } bit4;
@@ -11,8 +15,11 @@ typedef struct {
 
 typedef bit8 WORD;
 typedef bit4 DATA;
+typedef bit4 ADDR;
 typedef bit4 OPRATE;
 typedef bit4 OPRAND;
+typedef bit2 CONTROL;
+typedef bit4 PORT;
 
 #define GET_WORD(v) v.b
 #define SET_WORD(v, x) v.b = x
@@ -32,3 +39,5 @@ typedef bit4 OPRAND;
 #define DATA_SIZE sizeof(DATA)
 #define OPRATE_SIZE sizeof(OPRATE)
 #define OPRAND_SIZE sizeof(OPRAND)
+
+#define PORT_SIZE sizeof(PORT)

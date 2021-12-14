@@ -1,11 +1,16 @@
 #include <iostream>
 #include <unistd.h>
 
+#include "BUS.hpp"
 #include "CPU.hpp"
+#include "MEMORY.hpp"
 #include "TYPE.hpp"
 
 int main(void)
 {
+	BUS memBUS;
+	PORT ports[PORT_SIZE];
+	
 	CPU cpu = CPU();
 
 	WORD mem1;

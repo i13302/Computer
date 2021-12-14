@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BUS.hpp"
 #include "TYPE.hpp"
 
 #define REGISTER_SIZE 1
@@ -35,6 +36,7 @@ private:
 public:
 	void reset();
 	void clock(WORD value);
+	void connect_BUS(BUS *bus, PORT port);
 
 	void debug_print();
 };
