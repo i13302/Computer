@@ -3,7 +3,7 @@ CFLAGS= -Wall
 LIBS=-lm
 
 PROG=Computer.out
-OBJS=main.o CPU.o DEBUG.o
+OBJS=main.o CPU.o DEBUG.o MEMORY.o
 
 
 all: $(PROG)
@@ -12,6 +12,7 @@ $(PROG):$(OBJS)
 	$(CC) $(CFLAGS) $(LIBS) -o $(PROG) $^
 
 CPU.o: CPU.hpp TYPE.hpp DEBUG.hpp
+MEMORY.o: MEMORY.hpp TYPE.hpp DEBUG.hpp
 DEBUG.o: DEBUG.hpp
 
 .SUFFIXES: .cpp .o
