@@ -8,6 +8,9 @@ OBJS=main.o CPU.o DEBUG.o MEMORY.o
 
 all: $(PROG)
 
+run: $(PROG)
+	./$(PROG)
+
 $(PROG):$(OBJS)
 	$(CC) $(CFLAGS) $(LIBS) -o $(PROG) $^
 
