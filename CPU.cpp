@@ -27,3 +27,40 @@ OPRAND CPU::getOPRand(WORD value)
 
 	return _value;
 }
+
+void CPU::decode()
+{
+
+	switch (GET_OPRATE(IR)) {
+	case OparateTable::LDI:
+		Ins_LDI();
+		break;
+	case OparateTable::LOAD:
+		Ins_LOAD();
+		break;
+	case OparateTable::STORE:
+		Ins_STORE();
+		break;
+	case OparateTable::JUMP:
+		Ins_JUMP();
+		break;
+	default:
+		break;
+	}
+}
+
+void CPU::Ins_LDI()
+{
+}
+
+void CPU::Ins_LOAD()
+{
+}
+
+void CPU::Ins_STORE()
+{
+}
+
+void CPU::Ins_JUMP()
+{
+}
