@@ -7,25 +7,23 @@ void CPU::reset()
 {
 	SET_DATA(this->PC, 0x0);
 	SET_DATA(this->timing, 0x0);
-	SET_WORD(this->NULLWORD, 0xFF);
+	SET_WORD(this->NULLWORD, 0xF);
 }
 
 void CPU::clock()
 {
-	WORD   value;
 	OPRATE oprate;
-
+	DEBUG_PRINT("case", this->timing);
 	switch (GET_DATA(this->timing)) {
 	case 0:
 		COPY_DATA(this->MAR, this->PC);
-		CPU::setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
+		this->setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
 		break;
 	case 1:
-		value  = CPU::readBus(memBUS);
-		oprate = CPU::getOPRate(value);
+		oprate = (OPRATE)this->readBus(memBUS);
 		COPY_DATA(this->MBR, oprate);
 		INC_DATA(this->PC);
-		DEBUG_PRINT("value", value);
+		DEBUG_PRINT("oprate", oprate);
 		break;
 	case 2:
 		COPY_DATA(this->IR, this->MBR);
@@ -77,15 +75,14 @@ void CPU::decode()
 void CPU::Ins_LDI()
 {
 	OPRAND oprand;
-	WORD   value;
+
 	switch (GET_DATA(this->timing)) {
 	case 3:
 		COPY_DATA(this->MAR, this->PC);
-		CPU::setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
+		this->setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
 		break;
 	case 4:
-		value  = readBus(memBUS);
-		oprand = CPU::getOPRand(value);
+		oprand = (OPRAND)this->readBus(memBUS);
 		COPY_DATA(this->MBR, oprand);
 		INC_DATA(this->PC);
 		break;

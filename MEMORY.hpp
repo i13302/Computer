@@ -12,6 +12,6 @@ private:
 public:
 	MEMORY();
 
-	void Sync(BUS *bus);
+	void Sync();
 	void connect_BUS(BUS *bus, PORT *port);
 };

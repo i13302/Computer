@@ -13,7 +13,7 @@ typedef struct {
 	unsigned int b : 8;
 } bit8;
 
-typedef bit8 WORD;
+typedef bit4 WORD;
 typedef bit4 DATA;
 typedef bit4 ADDR;
 typedef bit4 OPRATE;

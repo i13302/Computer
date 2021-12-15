@@ -23,7 +23,7 @@ int main(void)
 		// printf("clock: %d\n", clock);
 		getchar();
 		cpu.clock();
-		memory.Sync(&memBUS);
+		memory.Sync();
 		sleep(1);
 	}
 
