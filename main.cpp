@@ -24,7 +24,6 @@ int main(void)
 		getchar();
 		cpu.clock();
 		memory.Sync();
-		sleep(1);
 	}
 
 	printf("end computer\n");

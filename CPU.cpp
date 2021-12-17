@@ -6,15 +6,15 @@
 void CPU::reset()
 {
 	SET_DATA(this->PC, 0x0);
-	SET_DATA(this->timing, 0x0);
+	SET_DATA(this->TIMING, 0x0);
 	SET_WORD(this->NULLWORD, 0xF);
 }
 
 void CPU::clock()
 {
 	OPRATE oprate;
-	DEBUG_PRINT("case", this->timing);
-	switch (GET_DATA(this->timing)) {
+	DEBUG_PRINT("case", this->TIMING);
+	switch (GET_DATA(this->TIMING)) {
 	case 0:
 		COPY_DATA(this->MAR, this->PC);
 		this->setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
@@ -33,7 +33,13 @@ void CPU::clock()
 		break;
 	}
 	this->debug_print();
-	INC_DATA(this->timing);
+
+	if (this->timing_reset) {
+		SET_DATA(this->TIMING, 0x0);
+		this->timing_reset = false;
+		return;
+	}
+	INC_DATA(this->TIMING);
 }
 
 OPRATE CPU::getOPRate(WORD value)
@@ -76,7 +82,7 @@ void CPU::Ins_LDI()
 {
 	OPRAND oprand;
 
-	switch (GET_DATA(this->timing)) {
+	switch (GET_DATA(this->TIMING)) {
 	case 3:
 		COPY_DATA(this->MAR, this->PC);
 		this->setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
@@ -88,7 +94,7 @@ void CPU::Ins_LDI()
 		break;
 	case 5:
 		COPY_DATA(this->REGISTERS[0], this->MBR);
-		RESET_DATA(this->timing);
+		this->timing_reset = true;
 		break;
 	}
 }
@@ -127,7 +133,7 @@ WORD CPU::readBus(BUS *bus)
 
 void CPU::debug_print()
 {
-	DEBUG_PRINT("timing", this->timing);
+	DEBUG_PRINT("TIMING", this->TIMING);
 	DEBUG_PRINT("PC", this->PC);
 	DEBUG_PRINT("IR", this->IR);
 	DEBUG_PRINT("REGISTERS[0]", this->REGISTERS[0]);
