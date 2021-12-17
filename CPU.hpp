@@ -4,7 +4,6 @@
 #include "TYPE.hpp"
 
 #define REGISTER_SIZE 1
-#define BUS_SIZE 1
 
 class CPU
 {
