@@ -27,7 +27,7 @@ private:
 	enum OparateTable { LDI, LOAD, STORE, JUMP };
 
 	bit4 TIMING;
-	bool timing_reset=false;
+	bool timing_reset = false;
 
 	void setBUS(BUS *bus, ADDR _addr, WORD _word, MODE _mode);
 	WORD readBus(BUS *bus);
@@ -41,7 +41,7 @@ private:
 public:
 	void reset();
 	void clock();
-	void connect_BUS(BUS *bus, PORT *port);
+	void connect_memory_BUS(BUS *bus, PORT *port);
 
 	void debug_print();
 };

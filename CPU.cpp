@@ -111,7 +111,7 @@ void CPU::Ins_JUMP()
 {
 }
 
-void CPU::connect_BUS(BUS *bus, PORT *port)
+void CPU::connect_memory_BUS(BUS *bus, PORT *port)
 {
 	this->memBUS  = bus;
 	this->memPORT = port;
