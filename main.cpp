@@ -13,7 +13,7 @@ int main(void)
 
 	CPU    cpu    = CPU();
 	MEMORY memory = MEMORY();
-	
+
 	cpu.connect_memory_BUS(&memBUS, &ports[0]);
 	memory.connect_BUS(&memBUS, &ports[1]);
 
