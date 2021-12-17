@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BUS.hpp"
 #include "TYPE.hpp"
 
 #define REGISTER_SIZE 1
@@ -11,10 +12,13 @@ private:
 	WORD REGISTERS[REGISTER_SIZE];
 	DATA PC; // Program Counter
 
-	OPRATE IR;  // Instruction Register
+	OPRATE IR; // Instruction Register
+	BUS *  memBUS;
+	PORT * memPORT;
 	OPRAND MAR; // Memory Address Register
 	WORD   MBR; // Memory Buffer Register
-	WORD   MEM;
+
+	WORD NULLWORD;
 
 	OPRATE operate[OPRATE_SIZE];
 	OPRATE getOPRate(WORD value);
@@ -22,9 +26,11 @@ private:
 
 	enum OparateTable { LDI, LOAD, STORE, JUMP };
 
-	bit4 timing;
+	bit4 TIMING;
+	bool timing_reset=false;
 
-	// void
+	void setBUS(BUS *bus, ADDR _addr, WORD _word, MODE _mode);
+	WORD readBus(BUS *bus);
 	void decode();
 
 	void Ins_LDI();   // Load Immediate to Register from Operand
@@ -34,7 +40,8 @@ private:
 
 public:
 	void reset();
-	void clock(WORD value);
+	void clock();
+	void connect_BUS(BUS *bus, PORT *port);
 
 	void debug_print();
 };

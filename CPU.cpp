@@ -6,26 +6,24 @@
 void CPU::reset()
 {
 	SET_DATA(this->PC, 0x0);
-	SET_DATA(this->timing, 0x0);
+	SET_DATA(this->TIMING, 0x0);
+	SET_WORD(this->NULLWORD, 0xF);
 }
 
-void CPU::clock(WORD value)
+void CPU::clock()
 {
-	this->debug_print();
-
 	OPRATE oprate;
-	this->MEM = value;
-
-	INC_DATA(this->timing);
-
-	switch (GET_DATA(this->timing)) {
+	DEBUG_PRINT("case", this->TIMING);
+	switch (GET_DATA(this->TIMING)) {
 	case 0:
 		COPY_DATA(this->MAR, this->PC);
+		this->setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
 		break;
 	case 1:
-		oprate = CPU::getOPRate(value);
+		oprate = (OPRATE)this->readBus(memBUS);
 		COPY_DATA(this->MBR, oprate);
 		INC_DATA(this->PC);
+		DEBUG_PRINT("oprate", oprate);
 		break;
 	case 2:
 		COPY_DATA(this->IR, this->MBR);
@@ -34,6 +32,14 @@ void CPU::clock(WORD value)
 		decode();
 		break;
 	}
+	this->debug_print();
+
+	if (this->timing_reset) {
+		SET_DATA(this->TIMING, 0x0);
+		this->timing_reset = false;
+		return;
+	}
+	INC_DATA(this->TIMING);
 }
 
 OPRATE CPU::getOPRate(WORD value)
@@ -75,18 +81,20 @@ void CPU::decode()
 void CPU::Ins_LDI()
 {
 	OPRAND oprand;
-	switch (GET_DATA(this->timing)) {
+
+	switch (GET_DATA(this->TIMING)) {
 	case 3:
 		COPY_DATA(this->MAR, this->PC);
+		this->setBUS(memBUS, this->MAR, NULLWORD, MODE_READ);
 		break;
 	case 4:
-		oprand = CPU::getOPRand(this->MEM);
+		oprand = (OPRAND)this->readBus(memBUS);
 		COPY_DATA(this->MBR, oprand);
 		INC_DATA(this->PC);
 		break;
 	case 5:
 		COPY_DATA(this->REGISTERS[0], this->MBR);
-		RESET_DATA(this->timing);
+		this->timing_reset = true;
 		break;
 	}
 }
@@ -103,13 +111,32 @@ void CPU::Ins_JUMP()
 {
 }
 
+void CPU::connect_BUS(BUS *bus, PORT *port)
+{
+	this->memBUS  = bus;
+	this->memPORT = port;
+	PTR_SET_DATA(this->memPORT, 0x1);
+}
+
+void CPU::setBUS(BUS *bus, ADDR _addr, WORD _word, MODE _mode)
+{
+
+	COPY_DATA(bus->addr, _addr);
+	COPY_DATA(bus->word, _word);
+	bus->mode = _mode;
+}
+
+WORD CPU::readBus(BUS *bus)
+{
+	return bus->word;
+}
+
 void CPU::debug_print()
 {
-	DEBUG_PRINT("timing", this->timing);
+	DEBUG_PRINT("TIMING", this->TIMING);
 	DEBUG_PRINT("PC", this->PC);
 	DEBUG_PRINT("IR", this->IR);
 	DEBUG_PRINT("REGISTERS[0]", this->REGISTERS[0]);
-	DEBUG_PRINT("MEM", this->MEM);
 	DEBUG_PRINT("MAR", this->MAR);
 	DEBUG_PRINT("MBR", this->MBR);
 }
