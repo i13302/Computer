@@ -3,22 +3,6 @@
 #include "DEBUG.hpp"
 #include "TYPE.hpp"
 
-MEMORY::MEMORY()
-{
-	SET_WORD(this->memory[0x0], 0x0);
-	SET_WORD(this->memory[0x1], 0xA);
-	SET_WORD(this->memory[0x2], 0x0);
-	SET_WORD(this->memory[0x3], 0xB);
-	SET_WORD(this->memory[0x4], 0x0);
-	SET_WORD(this->memory[0x5], 0xC);
-	SET_WORD(this->memory[0x6], 0x0);
-	SET_WORD(this->memory[0x7], 0xD);
-	SET_WORD(this->memory[0x8], 0x0);
-	SET_WORD(this->memory[0x9], 0xE);
-	SET_WORD(this->memory[0xA], 0x0);
-	SET_WORD(this->memory[0xB], 0xF);
-}
-
 void MEMORY::Sync()
 {
 	this->debug_print();
@@ -38,10 +22,18 @@ void MEMORY::connect_BUS(BUS *bus, PORT *port)
 
 void MEMORY::debug_print()
 {
-	
+
 	DEBUG_PRINT("memBUS addr", this->memBUS->addr);
 	DEBUG_PRINT("memBUS word", this->memBUS->word);
 	for (int i = 0; i < WORD_SIZE; i++) {
 		DEBUG_PRINT("MEMORY", this->memory[i]);
+	}
+}
+
+void MEMORY::direct_write(int n, WORD *data)
+{
+	for (int i = 0; i < n; i++) {
+		this->memory[i] = data[i];
+		DEBUG_PRINT("MEMORY", data[i]);
 	}
 }

@@ -46,3 +46,6 @@ typedef bit2 PORT;
 #define OPRAND_SIZE 16
 
 #define PORT_SIZE 4
+
+#define WORD_NOD 1       // Number of Digits
+#define WORD_NOD_plus1 2 //	WORD_NOD + 1

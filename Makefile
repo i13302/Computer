@@ -3,7 +3,7 @@ CFLAGS= -Wall
 LIBS=-lm
 
 PROG=Computer.out
-OBJS=main.o CPU.o DEBUG.o MEMORY.o
+OBJS=main.o CPU.o DEBUG.o MEMORY.o RomProg.o
 
 
 all: $(PROG)
@@ -16,6 +16,7 @@ $(PROG):$(OBJS)
 
 CPU.o: CPU.hpp TYPE.hpp BUS.hpp DEBUG.hpp
 MEMORY.o: MEMORY.hpp TYPE.hpp BUS.hpp DEBUG.hpp
+RomProg.o: RomProg.hpp MEMORY.hpp TYPE.hpp
 DEBUG.o: DEBUG.hpp
 
 .SUFFIXES: .cpp .o
