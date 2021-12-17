@@ -9,6 +9,8 @@ private:
 	BUS * memBUS;
 	PORT *memPORT;
 
+	void debug_print();
+
 public:
 	MEMORY();
 
