@@ -39,11 +39,10 @@ typedef bit2 PORT;
 #define INC_WORD(d) d.b++
 #define INC_DATA(d) INC_WORD(d)
 #define DEC_DATA(d) d.b--
-#define RESET_DATA(d) d.b = 0
 
-#define WORD_SIZE sizeof(WORD)
-#define DATA_SIZE sizeof(DATA)
-#define OPRATE_SIZE sizeof(OPRATE)
-#define OPRAND_SIZE sizeof(OPRAND)
+#define WORD_SIZE 16
+#define DATA_SIZE 16
+#define OPRATE_SIZE 16
+#define OPRAND_SIZE 16
 
-#define PORT_SIZE sizeof(PORT)
+#define PORT_SIZE 4
