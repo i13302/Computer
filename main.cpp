@@ -13,8 +13,8 @@ int main(void)
 
 	CPU    cpu    = CPU();
 	MEMORY memory = MEMORY();
-
-	cpu.connect_BUS(&memBUS, &ports[0]);
+	
+	cpu.connect_memory_BUS(&memBUS, &ports[0]);
 	memory.connect_BUS(&memBUS, &ports[1]);
 
 	printf("start computer\n");
