@@ -12,8 +12,8 @@ private:
 	void debug_print();
 
 public:
-	MEMORY();
-
 	void Sync();
 	void connect_BUS(BUS *bus, PORT *port);
+
+	void direct_write(int n, WORD *data);
 };
